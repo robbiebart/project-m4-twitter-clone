@@ -7,33 +7,40 @@ import Notifications from "./components/Notifications";
 import TweetDetails from "./components/TweetDetails";
 import Profile from "./components/Profile";
 import Sidebar from "./components/Sidebar";
+import styled from "styled-components";
 
 const App = () => {
   return (
     <div>
       <GlobalStyle />
-      <Router>
-        <Switch>
+      <Wrapper>
+        <Router>
           <Sidebar />
-          <Route>
-            <HomeFeed exact path="/" />
-          </Route>
-          <Route>
-            <Notifications path="/notifications" />
-          </Route>
-          <Route>
-            <Bookmarks path="/bookmarks" />
-          </Route>
-          <Route>
-            <TweetDetails path="/tweet/:tweetId" />
-          </Route>
-          <Route>
-            <Profile path="/:profileId" />
-          </Route>
-        </Switch>
-      </Router>
+          <Switch>
+            <Route exact path="/">
+              <HomeFeed />
+            </Route>
+            <Route path="/notifications">
+              <Notifications />
+            </Route>
+            <Route path="/bookmarks">
+              <Bookmarks />
+            </Route>
+            <Route path="/tweet/:tweetId">
+              <TweetDetails />
+            </Route>
+            <Route path="/:profileId">
+              <Profile />
+            </Route>
+          </Switch>
+        </Router>
+      </Wrapper>
     </div>
   );
 };
+
+const Wrapper = styled.div`
+  display: flex;
+`;
 
 export default App;

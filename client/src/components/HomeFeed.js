@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
+import { CurrentUserContext } from "./CurrentUserContext";
 
 const HomeFeed = () => {
-  return <div>HomeFeed</div>;
+  const { currentUser, status } = useContext(CurrentUserContext);
+  return (
+    <div>
+      {status}
+      {currentUser}
+    </div>
+  );
 };
 
 export default HomeFeed;
