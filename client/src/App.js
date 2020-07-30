@@ -6,6 +6,7 @@ import Bookmarks from "./components/Bookmarks";
 import Notifications from "./components/Notifications";
 import TweetDetails from "./components/TweetDetails";
 import Profile from "./components/Profile";
+import Sidebar from "./components/Sidebar";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <GlobalStyle />
       <Router>
         <Switch>
+          <Sidebar />
           <Route>
             <HomeFeed exact path="/" />
           </Route>
