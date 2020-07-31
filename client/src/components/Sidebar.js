@@ -8,6 +8,7 @@ import { home } from "react-icons-kit/feather/home";
 import { user } from "react-icons-kit/feather/user";
 import { bell } from "react-icons-kit/feather/bell";
 import { CurrentUserContext } from "./CurrentUserContext";
+import GlobalStyle from "./GlobalStyle";
 
 const Sidebar = () => {
   const { currentUser, status } = useContext(CurrentUserContext);
