@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
+import Retweets from "./Retweets";
+import TweetActions from "./TweetActions";
 
 const TweetDetails = () => {
   const { tweetId } = useParams();
@@ -19,6 +21,7 @@ const TweetDetails = () => {
   } else {
     return (
       <OutterTweetDiv>
+        <Retweets tweet={tweet} />
         <UpperTweetDiv>
           <Avatar src={tweet.author.avatarSrc} alt={tweet.author.displayName} />
           <NameHandleDate>
@@ -29,8 +32,16 @@ const TweetDetails = () => {
         </UpperTweetDiv>
         <ContentImage>
           <div>{tweet.status}</div>
-          {tweet.media.length > 0 && <img src={tweet.media[0].url} />}
+          {tweet.media.length > 0 && <Image src={tweet.media[0].url} />}
         </ContentImage>
+        <TweetActions
+          isLiked={tweet.isLiked}
+          isRetweeted={tweet.isRetweeted}
+          numLikes={tweet.numLikes}
+          numRetweets={tweet.numRetweets}
+          retweetedBy={tweet.retweetedBy}
+          tweetId={tweet.id}
+        />
       </OutterTweetDiv>
     );
   }
@@ -39,13 +50,18 @@ const TweetDetails = () => {
 const OutterTweetDiv = styled.div`
   display: flex;
   flex-direction: column;
-  border: solid 1px orange;
+  border-bottom: solid 2px lightgray;
+
+  padding-bottom: 10px;
+  margin-top: 10px;
+
+  width: 100%;
 `;
 
 const UpperTweetDiv = styled.div`
   display: flex;
 
-  border: solid 2px green;
+  /* border: solid 2px green; */
 `;
 
 const Avatar = styled.img`
@@ -66,11 +82,12 @@ const NameHandleDate = styled.div`
 
 const ContentImage = styled.div`
   display: inline-block;
+`;
 
-  img {
-    height: 75%;
-    border-radius: 5px;
-  }
+const Image = styled.img`
+  /* height: 75%; */
+  width: 50%;
+  border-radius: 5px;
 `;
 
 export default TweetDetails;

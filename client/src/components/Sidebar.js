@@ -12,46 +12,51 @@ import GlobalStyle from "./GlobalStyle";
 
 const Sidebar = () => {
   const { currentUser, status } = useContext(CurrentUserContext);
-  return (
-    <Sidediv>
-      <div>
-        <PurpleCat />
-      </div>
-      <SidedivElement>
-        <Link to="/">
-          <StyledIcon>
-            <Icon size={25} icon={home} />
-            <p>Home</p>
-          </StyledIcon>
-        </Link>
-      </SidedivElement>
-      <SidedivElement>
-        <Link to="/:profileId">
-          <StyledIcon>
-            <Icon size={25} icon={user} />
-            <p>Profile</p>
-          </StyledIcon>
-        </Link>
-        {/* this will be squiggly*/}
-      </SidedivElement>
-      <SidedivElement>
-        <Link to="/notifications">
-          <StyledIcon>
-            <Icon size={25} icon={bell} />
-            <p>Notifications</p>
-          </StyledIcon>
-        </Link>
-      </SidedivElement>
-      <SidedivElement>
-        <Link to="/bookmarks">
-          <StyledIcon>
-            <Icon size={25} icon={bookmark} />
-            <p>Bookmarks</p>
-          </StyledIcon>
-        </Link>
-      </SidedivElement>
-    </Sidediv>
-  );
+  console.log("currentUser", currentUser);
+  if (status === "idle") {
+    return (
+      <Sidediv>
+        <div>
+          <PurpleCat />
+        </div>
+        <SidedivElement>
+          <Link to="/">
+            <StyledIcon>
+              <Icon size={25} icon={home} />
+              <p>Home</p>
+            </StyledIcon>
+          </Link>
+        </SidedivElement>
+        <SidedivElement>
+          <Link to={`/${currentUser.profile.handle}`}>
+            <StyledIcon>
+              <Icon size={25} icon={user} />
+              <p>Profile</p>
+            </StyledIcon>
+          </Link>
+          {/* this will be squiggly*/}
+        </SidedivElement>
+        <SidedivElement>
+          <Link to="/notifications">
+            <StyledIcon>
+              <Icon size={25} icon={bell} />
+              <p>Notifications</p>
+            </StyledIcon>
+          </Link>
+        </SidedivElement>
+        <SidedivElement>
+          <Link to="/bookmarks">
+            <StyledIcon>
+              <Icon size={25} icon={bookmark} />
+              <p>Bookmarks</p>
+            </StyledIcon>
+          </Link>
+        </SidedivElement>
+      </Sidediv>
+    );
+  } else {
+    return <></>;
+  }
 };
 
 const Sidediv = styled.div`
@@ -59,7 +64,8 @@ const Sidediv = styled.div`
   flex-direction: column;
   height: 100vh;
   width: 20vw;
-  border: solid blue 5px;
+  border-right: solid lightgray 2px;
+  margin: 0px 15px;
 `;
 
 const SidedivElement = styled.div`

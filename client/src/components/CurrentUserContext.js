@@ -1,30 +1,95 @@
-import React, { createContext, useState, useEffect } from "react";
+import React from "react";
 
-export const CurrentUserContext = createContext(null);
+export const CurrentUserContext = React.createContext(null);
 
 export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = React.useState(null);
-  const [status, setStatus] = React.useState("loading");
+  const [currentUserProfile, setCurrentUserProfile] = React.useState({});
 
-  useEffect(() => {
+  const [status, setStatus] = React.useState("loading");
+  const [newFeed, setNewFeed] = React.useState(false);
+
+  React.useEffect(() => {
     fetch("/api/me/profile")
       .then((res) => res.json())
       .then((data) => {
         setCurrentUser(data);
         setStatus("idle");
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, []);
 
+  const handleTweetPost = (text) => {
+    const reqs = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status: text }),
+    };
+    fetch("/api/tweet", reqs)
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log(data);
+        setNewFeed(!newFeed);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleLike = (tweetId, isLiked) => {
+    const reqs = {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ like: !isLiked }),
+    };
+    fetch(`/api/tweet/${tweetId}/like`, reqs)
+      .then((response) => response.json())
+      .then((data) => {
+        setNewFeed(!newFeed);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleRetweet = (tweetId, isRetweeted) => {
+    const reqs = {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ retweet: !isRetweeted }),
+    };
+    fetch(`/api/tweet/${tweetId}/retweet`, reqs)
+      .then((response) => response.json())
+      .then((data) => {
+        setNewFeed(!newFeed);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
-    <CurrentUserContext.Provider value={{ currentUser, status }}>
+    <CurrentUserContext.Provider
+      value={{
+        currentUser,
+        currentUserProfile,
+        status,
+        handleTweetPost,
+        handleLike,
+        handleRetweet,
+      }}
+    >
       {children}
     </CurrentUserContext.Provider>
   );
 };
-/* 
-you want to use a conditional with the status, if the status is idle, then i know that i'm
-safe and i can access the obj and use it; this conditional happens wherever you use it, in this 
-case home feed
-all of the conditionals will have a if case using idle, and itll always if it isnt, display loading
-if status idle, return html that uses currentUser, else return div loading div
-*/
